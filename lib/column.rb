@@ -2,15 +2,16 @@ class Column
 
   $column_id = 0
 
-  attr_accessor :name
+  attr_accessor :name, :wip
 
-  def initialize name = false
+  def initialize name = false, wip = 9999
     $column_id   += 1
     @id         = $column_id
     @name       = name ? name : 'unnamed' + $column_id.to_s
     @last_uid   = -1
     @cards      = {}
     @current    = 0
+    @wip        = wip
   end
 
   def size
@@ -22,6 +23,7 @@ class Column
   end
 
   def add card
+    raise WipException if size > wip - 1
     @cards[next_uid]  = card
   end
 

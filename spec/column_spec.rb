@@ -1,6 +1,7 @@
 root = File.expand_path('../../lib', __FILE__)
 require File.join(root, 'card')
 require File.join(root, 'column')
+require File.join(root, 'exceptions/wip_exception')
 
 describe Column do
   COLUMN_LAST = 6
@@ -163,6 +164,22 @@ describe Column do
     size = d.size
 		d.delete card
 		d.size.should == size - 1
+  end
+
+  it "should add card when 1 to WIP limit" do
+  	column = filled
+  	column.wip= column.size + 1
+
+    card = Card.new (COLUMN_LAST+1).to_s
+    column << card
+  end
+
+  it "should raise exception when WIP exceed" do
+  	column = filled
+  	column.wip= column.size
+
+    card = Card.new (COLUMN_LAST+1).to_s
+  	lambda { column << card }.should raise_error
   end
 
 end
