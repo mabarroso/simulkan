@@ -1,0 +1,3 @@
+class WipException < RuntimeError
+
+end
