@@ -1,4 +1,4 @@
-root = File.expand_path('../../lib', __FILE__)
+root = File.expand_path('../../lib/simulkan', __FILE__)
 require File.join(root, 'card')
 require File.join(root, 'column')
 require File.join(root, 'exceptions/wip_exception')
