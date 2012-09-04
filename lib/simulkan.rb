@@ -1,5 +1,6 @@
 root = File.expand_path('../../lib/simulkan', __FILE__)
 require File.join(root, 'card')
+require File.join(root, 'resoure')
 require File.join(root, 'column')
 require File.join(root, 'board')
 
