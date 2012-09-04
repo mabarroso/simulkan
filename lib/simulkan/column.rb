@@ -4,7 +4,7 @@ class Column
 
   attr_accessor :name, :wip, :resources_hight, :resources_low
 
-  def initialize name = false, wip = 9999
+  def initialize name = false, wip = 9999, hight = 0, low = 0
     $column_id      += 1
     @id              = $column_id
     @name            = name ? name : 'unnamed' + $column_id.to_s
@@ -12,8 +12,8 @@ class Column
     @cards           = {}
     @current         = 0
     @wip             = wip
-    @resources_hight = 0
-    @resources_low   = 0
+    @resources_hight = hight
+    @resources_low   = low
   end
 
   def size

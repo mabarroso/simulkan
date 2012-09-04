@@ -9,7 +9,7 @@ backlog = Column.new 'Backlog'
 historylog = Column.new 'Historylog'
 board = Board.new
 
-column = Column.new 'Design', 3
-column = Column.new 'Development', 3
-column = Column.new 'QA', 3
+board << Column.new 'Design', 3, 3
+board << Column.new 'Development', 3, 3
+board << Column.new 'QA', 3, 3
 
