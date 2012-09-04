@@ -2,16 +2,18 @@ class Column
 
   $column_id = 0
 
-  attr_accessor :name, :wip
+  attr_accessor :name, :wip, :resources_hight, :resources_low
 
   def initialize name = false, wip = 9999
-    $column_id   += 1
-    @id         = $column_id
-    @name       = name ? name : 'unnamed' + $column_id.to_s
-    @last_uid   = -1
-    @cards      = {}
-    @current    = 0
-    @wip        = wip
+    $column_id      += 1
+    @id              = $column_id
+    @name            = name ? name : 'unnamed' + $column_id.to_s
+    @last_uid        = -1
+    @cards           = {}
+    @current         = 0
+    @wip             = wip
+    @resources_hight = 0
+    @resources_low   = 0
   end
 
   def size
@@ -89,6 +91,20 @@ class Column
   def card
     @cards[@cards.keys[@current]]
 	end
+
+	def resources= resources
+	  if resources.is_a? Array
+  	  @resources_hight = resources[0]
+  	  @resources_low	 = resources[1]
+  	else
+  	  @resources_hight = resources
+  	  @resources_low	 = 0
+    end
+	end
+
+	def resources
+	  @resources_hight + @resources_low / 2.0
+  end
 
   private
   def uid

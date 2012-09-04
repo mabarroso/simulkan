@@ -182,4 +182,16 @@ describe Column do
   	lambda { column << card }.should raise_error
   end
 
+  it "should be 1" do
+  	column = Column.new
+  	column.resources= 1
+  	column.resources.should == 1
+  end
+
+  it "should be 1.5" do
+  	column = Column.new
+  	column.resources= 1, 1
+  	column.resources.should == 1.5
+  end
+
 end
