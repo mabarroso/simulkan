@@ -5,11 +5,11 @@ class Board
   attr_accessor :name
 
   def initialize name = false
-    $board_id   += 1
+    $board_id  += 1
     @id         = $board_id
     @name       = name ? name : 'unnamed' + $board_id.to_s
     @last_uid   = -1
-    @columns      = {}
+    @columns    = {}
     @current    = 0
   end
 
