@@ -5,8 +5,8 @@ require File.join(root, 'column')
 require File.join(root, 'board')
 
 
-backlog = Column.new 'Backlog'
-historylog = Column.new 'Historylog'
+backlog = Column.new 'Backlog', {done: true})
+historylog = Column.new 'Historylog', {done: true})
 
 board = Board.new
 board << backlog
