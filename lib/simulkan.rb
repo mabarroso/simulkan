@@ -16,6 +16,6 @@ board << Column.new('QA', 3, 3)
 board << historylog
 
 20.times do |i|
-  card = Card.new (i+1).to_s
+  card = Card.new (i+1).to_s, columns_points: [0, 5, 10, 2, 0]
   backlog << card
 end
