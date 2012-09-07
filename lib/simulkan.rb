@@ -10,9 +10,12 @@ historylog = Column.new 'Historylog'
 
 board = Board.new
 board << backlog
-board << Column.new('Design', 3, 3)
-board << Column.new('Development', 3, 3)
-board << Column.new('QA', 3, 3)
+board << Column.new('Design', {wip: 3, resources_hight:3})
+board << Column.new('Design_done', {done: true})
+board << Column.new('Development', {wip: 3, resources_hight:3})
+board << Column.new('Development_done', {done: true})
+board << Column.new('QA', {wip: 3, resources_hight:3})
+board << Column.new('QA_done', {done: true})
 board << historylog
 
 20.times do |i|
