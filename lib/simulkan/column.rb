@@ -2,18 +2,19 @@ class Column
 
   $column_id = 0
 
-  attr_accessor :name, :wip, :resources_hight, :resources_low
+  attr_accessor :name, :subcolumn, :wip, :resources_hight, :resources_low
 
-  def initialize name = false, wip = 9999, hight = 0, low = 0
+  def initialize name = false, opts = {}
     $column_id      += 1
     @id              = $column_id
     @name            = name ? name : 'unnamed' + $column_id.to_s
     @last_uid        = -1
     @cards           = {}
     @current         = 0
-    @wip             = wip
-    @resources_hight = hight
-    @resources_low   = low
+    @done            = opts[:done] || false
+    @wip             = opts[:wip] || 9999
+    @resources_hight = opts[:resources_hight] || 1
+    @resources_low   = opts[:resources_low] || 0
   end
 
   def size
