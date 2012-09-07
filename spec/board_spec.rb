@@ -165,4 +165,14 @@ describe Board do
 		d.size.should == size - 1
   end
 
+  it "should pull a card from column1 to column2" do
+  	d = filled
+  	d.first
+		d.column << Card.new
+		d.cycle
+		d.column.size.should == 0
+		d.next
+		d.column.size.should == 1
+  end
+
 end
