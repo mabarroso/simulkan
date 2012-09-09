@@ -107,6 +107,10 @@ class Column
 	  @resources_hight + @resources_low / 2.0
   end
 
+  def done?
+    @done == true
+  end
+
   private
   def uid
     @last_uid
