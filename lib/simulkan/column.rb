@@ -2,6 +2,7 @@ class Column
 
   $column_id = 0
 
+	attr_reader :id
   attr_accessor :name, :subcolumn, :wip, :resources_hight, :resources_low, :resource_points, :uncertainty
 
   def initialize name = false, opts = {}
