@@ -194,4 +194,42 @@ describe Column do
   	column.resources.should == 1.5
   end
 
+  it "should be resource_points" do
+  	column = Column.new
+  	column.resources= 1, 0
+		column.resource_points = 2
+		column.uncertainty = false
+  	column.work_points.should == 2
+  end
+
+  it "should be resource_points / 2" do
+  	column = Column.new
+  	column.resources= 0, 1
+		column.resource_points = 2
+		column.uncertainty = false
+  	column.work_points.should == 2 / 2.0
+  end
+
+  it "should be resource_points + resource_points / 2" do
+  	column = Column.new
+  	column.resources= 1, 1
+		column.resource_points = 2
+		column.uncertainty = false
+  	column.work_points.should == 2 + 2 / 2.0
+  end
+
+  it "should be any diferent when uncertainty" do
+    diferent = false
+  	column = Column.new
+  	column.resources= 1, 1
+		column.resource_points = 2
+		column.uncertainty = true
+    aw = column.work_points
+    10.times do
+  	  w = column.work_points
+  	  diferent = true unless aw == w
+  	end
+  	diferent.should be_true
+  end
+
 end

@@ -2,7 +2,7 @@ class Column
 
   $column_id = 0
 
-  attr_accessor :name, :subcolumn, :wip, :resources_hight, :resources_low
+  attr_accessor :name, :subcolumn, :wip, :resources_hight, :resources_low, :resource_points, :uncertainty
 
   def initialize name = false, opts = {}
     $column_id      += 1
@@ -15,6 +15,8 @@ class Column
     @wip             = opts[:wip] || 9999
     @resources_hight = opts[:resources_hight] || 1
     @resources_low   = opts[:resources_low] || 0
+    @resource_points = opts[:resource_points] || 2
+    @uncertainty   	 = opts[:uncertainty] || false
   end
 
   def size
@@ -109,6 +111,17 @@ class Column
 
   def done?
     @done == true
+  end
+
+  def work_points
+  	points = 0
+  	@resources_hight.times do
+  		points += Resource.work max: @resource_points, random: @uncertainty
+  	end
+  	@resources_low.times do
+  		points += Resource.work max: @resource_points, random: @uncertainty, lower: true
+  	end
+  	points
   end
 
   private
