@@ -48,6 +48,11 @@ class Column
 
   def each &blk
     return unless block_given?
+    @cards.keys.each{|uid| yield @cards[uid] }
+  end
+
+  def each_uid &blk
+    return unless block_given?
     @cards.keys.each{|uid| yield uid, @cards[uid] }
   end
 
@@ -136,7 +141,7 @@ class Column
   end
 
   def find_uid card_to_find
-    each do |uid, card|
+    each_uid do |uid, card|
       return uid if card_to_find.equal? card
     end
     false
