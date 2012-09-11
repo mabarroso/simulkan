@@ -23,6 +23,7 @@ class Board
 
   def add column
     @columns[next_uid]  = column
+    order
   end
 
   alias :<< :add
@@ -34,10 +35,16 @@ class Board
   def delete column_to_delete
     uid = find_uid column_to_delete
     @columns.delete uid if uid
+    order
     uid
   end
 
   def each &blk
+    return unless block_given?
+    @columns.keys.each{|uid| yield @columns[uid] }
+  end
+
+  def each_uid &blk
     return unless block_given?
     @columns.keys.each{|uid| yield uid, @columns[uid] }
   end
@@ -88,6 +95,36 @@ class Board
     @columns[@columns.keys[@current]]
 	end
 
+	def cycle
+		last
+puts 'last column'
+		begin
+puts "  column #{column.id} have #{column.size} cards"
+			work_points = column.work_points
+puts "  work_points #{work_points}"
+			card = column.first
+			while (work_points > 0) && (column.next?) do
+puts "  card #{column.card.id}"
+				if column.card
+					work_points = column.card.consume_column_points column.id, work_points
+					column.next
+				else
+					if previous
+					  card = false
+						column.first
+						if column.card.get_column_points column.id == 0
+							card = column.card
+							column.delete card
+						end
+						next
+						column.add card if card
+					end
+				end
+			end
+			card = column.card
+		end while previous
+	end
+
   private
   def uid
     @last_uid
@@ -98,10 +135,17 @@ class Board
   end
 
   def find_uid column_to_find
-    each do |uid, column|
+    each_uid do |uid, column|
       return uid if column_to_find.equal? column
     end
     false
   end
 
+  def order
+  	pos = 0
+		@columns.keys.each do |uid|
+			@columns[uid].order= pos
+			pos += 1
+		end
+  end
 end

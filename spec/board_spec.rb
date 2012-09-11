@@ -165,14 +165,35 @@ describe Board do
 		d.size.should == size - 1
   end
 
-  it "should pull a card from column1 to column2" do
+  it "should ordered" do
+  	d = filled
+  	order = 0
+  	d.each do |column|
+  		column.order.should == order
+  		order +=1
+  	end
+  end
+
+  it "should reordered" do
   	d = filled
   	d.first
-		d.column << Card.new
-		d.cycle
-		d.column.size.should == 0
-		d.next
-		d.column.size.should == 1
+  	d.next
+  	d.delete d.column
+  	order = 0
+  	d.each do |column|
+  		column.order.should == order
+  		order +=1
+  	end
   end
+
+#  it "should pull a card from column1 to column2" do
+#  	d = filled
+#  	d.first
+#		d.column << Card.new
+#		d.cycle
+#		d.column.size.should == 0
+#		d.next
+#		d.column.size.should == 1
+#  end
 
 end

@@ -3,12 +3,13 @@ class Column
   $column_id = 0
 
 	attr_reader :id
-  attr_accessor :name, :subcolumn, :wip, :resources_hight, :resources_low, :resource_points, :uncertainty
+  attr_accessor :name, :order, :wip, :resources_hight, :resources_low, :resource_points, :uncertainty
 
   def initialize name = false, opts = {}
     $column_id      += 1
     @id              = $column_id
     @name            = name ? name : 'unnamed' + $column_id.to_s
+    @order           = opts[:order] || @id
     @last_uid        = -1
     @cards           = {}
     @current         = 0
