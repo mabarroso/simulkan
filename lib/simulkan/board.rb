@@ -97,31 +97,50 @@ class Board
 
 	def cycle
 		last
-puts 'last column'
+puts "last column #{column.order}"
 		begin
-puts "  column #{column.id} have #{column.size} cards"
+puts "  column ##{column.id}, #{column.order} have #{column.size} cards"
 			work_points = column.work_points
 puts "  work_points #{work_points}"
-			card = column.first
-			while (work_points > 0) && (column.next?) do
-puts "  card #{column.card.id}"
-				if column.card
-					work_points = column.card.consume_column_points column.id, work_points
-					column.next
-				else
+			column.first
+			is_valid_card = column.card
+puts "2is column #{column.order}"
+			while (work_points > 0) do
+puts "3is column #{column.order}"
+				if is_valid_card
+puts "  -is_valid_card#{is_valid_card} card #{column.card.id} in column order #{column.order}"
+					work_points = column.card.consume_column_points column.order, work_points
+puts "    work_points #{work_points}"
+					is_valid_card = column.next
+				end
+puts "is column #{column.order}"
+				unless is_valid_card
+puts "in not valid card for #{column.order}"
+				  card = nil
 					if previous
-					  card = false
 						column.first
-						if column.card.get_column_points column.id == 0
+puts "  --->column order #{column.order}"
+						if column.card && (column.card.get_column_points(column.order) == 0)
+puts "  --->card #{column.order} have #{column.card.get_column_points(column.order)}"
+puts "  ===>column #{column.order} have #{column.size} cards and card is #{card}"
 							card = column.card
 							column.delete card
+puts "  ===>column #{column.order} have #{column.size} cards and card is #{card}"
 						end
-						next
-						column.add card if card
+puts "is prenext"
+						self.next
+puts "is postnext"
+						if card != nil
+puts "  2===>column #{column.order} have #{column.size} cards and card is #{card}"
+							column.add card
+							column.last
+puts "  2===>column #{column.order} have #{column.size} cards and card is #{card}"
+							is_valid_card = column.card
+						end
 					end
+					work_points = 0 unless card
 				end
 			end
-			card = column.card
 		end while previous
 	end
 

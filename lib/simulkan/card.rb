@@ -12,11 +12,11 @@ class Card
     @id             = $card_id
     @name           = name || $card_id.to_s
     @body           = opts[:body] || ''
-    set_column_points opts[:columns_points] || 0
+    set_column_points(opts[:columns_points] || 0)
   end
 
   def set_column_points columns_points
-    @columns_points	= []
+    @columns_points	= Array.new
     if columns_points.is_a? Array
     	columns_points.each do |points|
     		@columns_points << points
@@ -37,6 +37,8 @@ class Card
   	# return positive -> completed and more points
   	# return 0 -> completed and no more points
   	# return negative -> o completed and no more points
+#puts "points #{points} column #{column} @columns_points #{@columns_points.count} @columns_points[column] #{@columns_points[column]}"
+  	return(points) unless @columns_points.count > column
   	points - @columns_points[column]
   end
 
