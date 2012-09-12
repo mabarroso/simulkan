@@ -39,7 +39,11 @@ class Card
   	# return negative -> o completed and no more points
 #puts "points #{points} column #{column} @columns_points #{@columns_points.count} @columns_points[column] #{@columns_points[column]}"
   	return(points) unless @columns_points.count > column
-  	points - @columns_points[column]
+  	result = points - @columns_points[column]
+  	if result < 1
+  		@columns_points[column] -= points
+  	end
+  	result
   end
 
 end

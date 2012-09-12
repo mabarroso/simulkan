@@ -187,10 +187,7 @@ describe Board do
   end
 
   it "should pull a card from column1 to column2" do
-#  	d = filled
-    d = Board.new
-    d << Column.new
-    d << Column.new
+  	d = filled
 
   	d.first
 		d.column << Card.new('dummy', columns_points: [0, 0])
@@ -200,12 +197,56 @@ describe Board do
 		d.next
 		d.column.size.should == 0
 
+		d.cycle
+		d.first
+		d.column.size.should == 0
+		d.next
+		d.column.size.should == 1
+  end
+
+  it "should pull a card from column1 to column2 consuming points" do
+  	d = filled
+
+  	d.first
+		d.column << Card.new('dummy', columns_points: [2, 0])
+
+		d.first
+		d.column.size.should == 1
+		d.next
+		d.column.size.should == 0
+
+		d.cycle
+		d.first
+		d.column.size.should == 1
+		d.next
+		d.column.size.should == 0
 
 		d.cycle
 		d.first
 		d.column.size.should == 0
 		d.next
 		d.column.size.should == 1
+
+  end
+
+  it "should fix a card in column1 with pending points" do
+  	d = filled
+
+  	d.first
+		d.column << Card.new('dummy', columns_points: [3, 0])
+
+		d.first
+		d.column.size.should == 1
+		d.column.card.get_column_points(0).should == 3
+		d.next
+		d.column.size.should == 0
+
+		d.cycle
+		d.first
+		d.column.size.should == 1
+		d.column.card.get_column_points(0).should == 1
+		d.next
+		d.column.size.should == 0
   end
 
 end
