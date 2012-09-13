@@ -226,7 +226,6 @@ describe Board do
 		d.column.size.should == 0
 		d.next
 		d.column.size.should == 1
-
   end
 
   it "should fix a card in column1 with pending points" do
@@ -247,6 +246,50 @@ describe Board do
 		d.column.card.get_column_points(0).should == 1
 		d.next
 		d.column.size.should == 0
+  end
+
+  it "should pull a card from first column to the last column consuming points" do
+  	d = filled
+
+  	d.first
+		d.column << Card.new('dummy', columns_points: [2]*BOARD_LAST)
+
+		d.first
+		d.column.size.should == 1
+		d.last
+		d.column.size.should == 0
+
+		BOARD_LAST.times do |i|
+			d.cycle
+		end
+
+		d.first
+		d.column.size.should == 0
+		d.last
+		d.column.size.should == 1
+  end
+
+  it "should pull a card from first column to the previous last column consuming points" do
+  	d = filled
+
+  	d.first
+		d.column << Card.new('dummy', columns_points: [2]*BOARD_LAST)
+
+		d.first
+		d.column.size.should == 1
+		d.last
+		d.column.size.should == 0
+
+		(BOARD_LAST-1).times do |i|
+			d.cycle
+		end
+
+		d.first
+		d.column.size.should == 0
+		d.last
+		d.column.size.should == 0
+		d.previous
+		d.column.size.should == 1
   end
 
 end
