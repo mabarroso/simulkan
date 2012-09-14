@@ -232,4 +232,26 @@ describe Column do
   	diferent.should be_true
   end
 
+  it "must be all atwork" do
+    column = Column.new
+    column.order = 0
+    card = Card.new (i+1).to_s
+    card.set_column_points [5]
+    column << card
+
+    column.atwork.should 1
+    column.done.should 0
+  end
+
+  it "must be all done" do
+    column = Column.new
+    column.order = 0
+    card = Card.new (i+1).to_s
+    card.set_column_points [0]
+    column << card
+
+    column.atwork.should 0
+    column.done.should 1
+  end
+
 end
