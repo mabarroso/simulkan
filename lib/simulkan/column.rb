@@ -30,7 +30,7 @@ class Column
   end
 
   def add card
-    raise WipException if size > wip - 1
+    raise WipException if size > @wip - 1
     @cards[next_uid]  = card
   end
 
