@@ -32,7 +32,14 @@ class Card
   	@columns_points[column]
   end
 
-	#
+	def atwork? column
+		@columns_points[column] > 0
+	end
+
+	def done? column
+		!atwork?(column)
+	end
+
   def consume_column_points column, points
   	# return positive -> completed and more points
   	# return 0 -> completed and no more points

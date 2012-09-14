@@ -43,4 +43,18 @@ describe Card do
   	c.consume_column_points(0, 4).should < 0
   end
 
+  it "must be atwork" do
+  	c = Card.new
+  	c.set_column_points [5]
+  	c.atwork?(0).should be_true
+  	c.done?(0).should be_false
+  end
+
+  it "must be done" do
+  	c = Card.new
+  	c.set_column_points [0]
+  	c.atwork?(0).should be_false
+  	c.done?(0).should be_true
+  end
+
 end
