@@ -5,17 +5,14 @@ require File.join(root, 'column')
 require File.join(root, 'board')
 
 
-backlog = Column.new 'Backlog', {done: true})
-historylog = Column.new 'Historylog', {done: true})
+backlog = Column.new 'Backlog', {done: true}
+historylog = Column.new 'Historylog', {done: true}
 
 board = Board.new
 board << backlog
 board << Column.new('Design', {wip: 3, resources_hight:3})
-board << Column.new('Design_done', {done: true})
 board << Column.new('Development', {wip: 3, resources_hight:3})
-board << Column.new('Development_done', {done: true})
 board << Column.new('QA', {wip: 3, resources_hight:3})
-board << Column.new('QA_done', {done: true})
 board << historylog
 
 20.times do |i|
