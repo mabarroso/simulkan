@@ -131,6 +131,22 @@ class Column
   	points
   end
 
+  def done order = @order
+  	r = 0
+  	@cards.keys.each do |uid|
+      r += 1 if @cards[uid].done?(order)
+  	end
+  	r
+	end
+
+  def atwork order = @order
+  	r = 0
+  	@cards.keys.each do |uid|
+      r += 1 if @cards[uid].atwork?(order)
+  	end
+  	r
+	end
+
   private
   def uid
     @last_uid
