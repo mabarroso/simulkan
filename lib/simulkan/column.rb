@@ -28,8 +28,12 @@ class Column
     @cards.count == 0
   end
 
+  def wip?
+    size > @wip - 1
+  end
+
   def add card
-    raise WipException if size > @wip - 1
+    raise WipException if wip?
     @cards[next_uid]  = card
   end
 

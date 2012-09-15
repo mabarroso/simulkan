@@ -170,14 +170,17 @@ describe Column do
   	column = filled
   	column.wip= column.size + 1
 
+    column.wip?.should be_false
     card = Card.new (COLUMN_LAST+1).to_s
     column << card
+    column.wip?.should be_true
   end
 
   it "should raise exception when WIP exceed" do
   	column = filled
   	column.wip= column.size
 
+    column.wip?.should be_true
     card = Card.new (COLUMN_LAST+1).to_s
   	lambda { column << card }.should raise_error
   end
