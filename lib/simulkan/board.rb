@@ -108,7 +108,7 @@ class Board
 				end
 				unless is_valid_card
 				  card = nil
-					if previous
+					if !column.wip? && previous
 						column.first
 						if column.card && (column.card.get_column_points(column.order) == 0)
 							card = column.card
