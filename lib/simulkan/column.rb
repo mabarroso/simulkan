@@ -13,7 +13,6 @@ class Column
     @last_uid        = -1
     @cards           = {}
     @current         = 0
-    @done            = opts[:done] || false
     @wip             = opts[:wip] || 9999
     @resources_hight = opts[:resources_hight] || 1
     @resources_low   = opts[:resources_low] || 0
@@ -114,10 +113,6 @@ class Column
 
 	def resources
 	  @resources_hight + @resources_low / 2.0
-  end
-
-  def done?
-    @done == true
   end
 
   def work_points
