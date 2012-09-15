@@ -3,21 +3,22 @@ class Column
   $column_id = 0
 
 	attr_reader :id
-  attr_accessor :name, :order, :wip, :resources_hight, :resources_low, :resource_points, :uncertainty
+  attr_accessor :name, :order, :wip, :resources_hight, :resources_low, :resource_points, :uncertainty, :last_work_points
 
   def initialize name = false, opts = {}
-    $column_id      += 1
-    @id              = $column_id
-    @name            = name ? name : 'unnamed' + $column_id.to_s
-    @order           = opts[:order] || @id
-    @last_uid        = -1
-    @cards           = {}
-    @current         = 0
-    @wip             = opts[:wip] || 9999
-    @resources_hight = opts[:resources_hight] || 1
-    @resources_low   = opts[:resources_low] || 0
-    @resource_points = opts[:resource_points] || 2
-    @uncertainty   	 = opts[:uncertainty] || false
+    $column_id        += 1
+    @id                = $column_id
+    @name              = name ? name : 'unnamed' + $column_id.to_s
+    @order             = opts[:order] || @id
+    @last_uid          = -1
+    @cards             = {}
+    @current           = 0
+    @wip               = opts[:wip] || 9999
+    @resources_hight   = opts[:resources_hight] || 1
+    @resources_low     = opts[:resources_low] || 0
+    @resource_points   = opts[:resource_points] || 2
+    @uncertainty   	   = opts[:uncertainty] || false
+    @last_work_points  = 0
   end
 
   def size
@@ -127,7 +128,7 @@ class Column
   	@resources_low.times do
   		points += Resource.work max: @resource_points, random: @uncertainty, lower: true
   	end
-  	points
+  	@last_work_points = points
   end
 
   def done order = @order

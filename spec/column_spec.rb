@@ -202,7 +202,9 @@ describe Column do
   	column.resources= 1, 0
 		column.resource_points = 2
 		column.uncertainty = false
-  	column.work_points.should == 2
+		work_points = column.work_points
+  	work_points.should == column.last_work_points
+  	work_points.should == 2
   end
 
   it "should be resource_points / 2" do
@@ -210,7 +212,9 @@ describe Column do
   	column.resources= 0, 1
 		column.resource_points = 2
 		column.uncertainty = false
-  	column.work_points.should == 2 / 2.0
+		work_points = column.work_points
+  	work_points.should == column.last_work_points
+  	work_points.should == 2 / 2.0
   end
 
   it "should be resource_points + resource_points / 2" do
@@ -218,7 +222,9 @@ describe Column do
   	column.resources= 1, 1
 		column.resource_points = 2
 		column.uncertainty = false
-  	column.work_points.should == 2 + 2 / 2.0
+		work_points = column.work_points
+  	work_points.should == column.last_work_points
+  	work_points.should == 2 + 2 / 2.0
   end
 
   it "should be any diferent when uncertainty" do
@@ -228,8 +234,10 @@ describe Column do
 		column.resource_points = 2
 		column.uncertainty = true
     aw = column.work_points
+  	aw.should == column.last_work_points
     10.times do
   	  w = column.work_points
+  	  w.should == column.last_work_points
   	  diferent = true unless aw == w
   	end
   	diferent.should be_true
