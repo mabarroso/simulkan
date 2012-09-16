@@ -43,12 +43,14 @@ class Card
   def consume_column_points column, points
   	# return positive -> completed and more points
   	# return 0 -> completed and no more points
-  	# return negative -> o completed and no more points
-#puts "points #{points} column #{column} @columns_points #{@columns_points.count} @columns_points[column] #{@columns_points[column]}"
+  	# return negative -> no completed and no more points
   	return(points) unless @columns_points.count > column
+    return(points) if done?(column)
   	result = points - @columns_points[column]
-  	if result < 1
+  	if result < 0
   		@columns_points[column] -= points
+    else
+      @columns_points[column] = 0
   	end
   	result
   end
