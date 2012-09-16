@@ -107,15 +107,17 @@ class Board
 					is_valid_card = column.next
 				end
 				unless is_valid_card
-				  card = nil
+				  card = false
 					if !column.wip? && previous
 						column.first
-						if column.card && (column.card.get_column_points(column.order) == 0)
-							card = column.card
-							column.delete card
-						end
+						begin
+						  if column.card && column.card.done?(column.order)
+							  card = column.card
+							  column.delete card
+						  end
+						end while (!card && column.next)
 						self.next
-						if card != nil
+						if card
 							column.add card
 							column.last
 							is_valid_card = column.card
