@@ -11,7 +11,8 @@ def snapshot board
 	r = ''
 	board.first
 	board.each do |column|
-		r += " #{column.atwork}/#{column.done}[#{column.wip}-#{column.resources}-#{column.last_work_points}] |"
+		#r += " #{column.atwork}/#{column.done}[#{column.wip}-#{column.resources}-#{column.last_work_points}] |"
+		r += sprintf("%2d/%2d[%1d-%2d-%2d] |",  column.atwork, column.done, column.wip, column.resources, column.last_work_points)
 	end
 	r
 end
@@ -35,11 +36,11 @@ CYCLES = 30
 log = ''
 Indicator::spin :pre => "Work", :frames => ['   ', '.  ', '.. ', '...'], :count => CYCLES do |spin|
   CYCLES.times do |i|
-    log += "#{i} #{snapshot(board)}\n"
+    log += sprintf("%2d %s\n", i, snapshot(board))
     spin.post= " in progress #{i} of #{CYCLES} cycles #{snapshot(board)}"
     spin.inc
     board.cycle
-    sleep 0.5
+    #sleep 0.5
   end
 end
 
