@@ -103,6 +103,7 @@ class Column
 	end
 
   def card
+    return false if @cards.empty?
     @cards[@cards.keys[@current]]
 	end
 
