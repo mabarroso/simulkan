@@ -7,14 +7,23 @@ require File.join(root, 'column')
 require File.join(root, 'board')
 require File.join(root, 'exceptions/wip_exception')
 
+def snapshot board
+	r = ''
+	board.first
+	board.each do |column|
+		r += " #{column.name} #{column.atwork}/#{column.done}[#{column.wip}-#{column.resources}-#{column.last_work_points}] |"
+	end
+	r
+end
+
 backlog = Column.new 'Backlog'
 historylog = Column.new 'Historylog'
 
 board = Board.new
 board << backlog
-board << Column.new('Design', {wip: 3000, resources_hight:3})
-board << Column.new('Development', {wip: 3000, resources_hight:3})
-board << Column.new('QA', {wip: 3000, resources_hight:3})
+board << Column.new('Design', {wip: 3, resources_hight:3})
+board << Column.new('Development', {wip: 3, resources_hight:3})
+board << Column.new('QA', {wip: 3, resources_hight:3})
 board << historylog
 
 20.times do |i|
@@ -22,13 +31,16 @@ board << historylog
   backlog << card
 end
 
-CYCLES = 10
+CYCLES = 20
 
 Indicator::spin :pre => "Work", :frames => ['   ', '.  ', '.. ', '...'], :count => CYCLES do |spin|
   CYCLES.times do |i|
+    spin.post= " in progress #{i} of #{CYCLES} cycles #{snapshot(board)}"
     spin.inc
-    spin.post= " in progress #{i} of #{CYCLES} cycles"
     board.cycle
-    sleep 0.2
+    sleep 0.5
   end
 end
+
+puts snapshot(board)
+
