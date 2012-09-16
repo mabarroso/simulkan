@@ -11,7 +11,7 @@ def snapshot board
 	r = ''
 	board.first
 	board.each do |column|
-		r += " #{column.name} #{column.atwork}/#{column.done}[#{column.wip}-#{column.resources}-#{column.last_work_points}] |"
+		r += " #{column.atwork}/#{column.done}[#{column.wip}-#{column.resources}-#{column.last_work_points}] |"
 	end
 	r
 end
@@ -27,14 +27,15 @@ board << Column.new('QA', {wip: 3, resources_hight:3})
 board << historylog
 
 20.times do |i|
-  card = Card.new (i+1).to_s, columns_points: [0, 5, 10, 2, 0]
+  card = Card.new (i+1).to_s, columns_points: [0, 10, 20, 10, 0]
   backlog << card
 end
+CYCLES = 30
 
-CYCLES = 20
-
+log = ''
 Indicator::spin :pre => "Work", :frames => ['   ', '.  ', '.. ', '...'], :count => CYCLES do |spin|
   CYCLES.times do |i|
+    log += "#{i} #{snapshot(board)}\n"
     spin.post= " in progress #{i} of #{CYCLES} cycles #{snapshot(board)}"
     spin.inc
     board.cycle
@@ -42,5 +43,5 @@ Indicator::spin :pre => "Work", :frames => ['   ', '.  ', '.. ', '...'], :count 
   end
 end
 
-puts snapshot(board)
+puts log
 
