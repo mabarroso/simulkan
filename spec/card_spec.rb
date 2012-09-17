@@ -57,4 +57,43 @@ describe Card do
   	c.done?(0).should be_true
   end
 
+	it "must be count first" do
+		c = Card.new
+		c.set_column_points 3
+		c.acumulative(0).should == [1]
+	end
+
+	it "must be count two" do
+		c = Card.new
+		c.set_column_points 3
+		c.acumulative(1).should == [1, 1]
+	end
+
+	it "must be count all" do
+		c = Card.new
+		c.set_column_points 3
+		c.acumulative(2).should == [1, 1, 1]
+	end
+
+	it "must be counted first" do
+		c = Card.new
+		c.set_column_points 3
+		c.acumulative(0)
+		c.acumulative(0).should == [0]
+	end
+
+	it "must be counted one but not others" do
+		c = Card.new
+		c.set_column_points 3
+		c.acumulative(0)
+		c.acumulative(2).should == [0, 1, 1]
+	end
+
+	it "must be counted two but not last" do
+		c = Card.new
+		c.set_column_points 3
+		c.acumulative(1)
+		c.acumulative(2).should == [0, 0, 1]
+	end
+
 end

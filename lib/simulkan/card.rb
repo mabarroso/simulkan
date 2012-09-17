@@ -4,7 +4,7 @@ class Card
 
   $card_id = 0
 
-  attr_reader :id
+  attr_reader :id, :counted
   attr_accessor :name, :body, :columns_points
 
   def initialize name = false, opts = {}
@@ -17,13 +17,16 @@ class Card
 
   def set_column_points columns_points
     @columns_points	= Array.new
+    @counted = Array.new
     if columns_points.is_a? Array
     	columns_points.each do |points|
     		@columns_points << points
+    		@counted << false
     	end
     else
       columns_points.times do |i|
       	@columns_points << STORY_POINTS
+      	@counted << false
       end
   	end
   end
@@ -54,5 +57,19 @@ class Card
   	end
   	result
   end
+
+	def acumulative column
+		r = []
+		(column+1).times do |i|
+			j = column - i
+			if @counted[j]
+				r[j] = 0
+			else
+			  r[j] = 1
+			  @counted[j] = true
+			end
+		end
+		r
+	end
 
 end
