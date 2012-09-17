@@ -62,6 +62,16 @@ class Card
 		r = []
 		(column+1).times do |i|
 			j = column - i
+		  r[j] = 1
+		  @counted[j] = true
+		end
+		r
+	end
+
+	def acumulative_newest column
+		r = []
+		(column+1).times do |i|
+			j = column - i
 			if @counted[j]
 				r[j] = 0
 			else
