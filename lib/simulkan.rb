@@ -11,8 +11,21 @@ def snapshot board
 	r = ''
 	board.first
 	board.each do |column|
-		#r += " #{column.atwork}/#{column.done}[#{column.wip}-#{column.resources}-#{column.last_work_points}] |"
 		r += sprintf("%2d/%2d[%1d-%2d-%2d] |",  column.atwork, column.done, column.wip, column.resources, column.last_work_points)
+	end
+	r
+end
+
+def acumulative board
+	r = [0] * board.size
+	board.first
+	board.each do |column|
+		column.each do |card|
+			columns = card.acumulative(column.order)
+			columns.size.times do |i|
+				r[i] += columns[i]
+			end
+		end
 	end
 	r
 end
@@ -34,9 +47,11 @@ end
 CYCLES = 30
 
 log = ''
+graph = Array.new
 Indicator::spin :pre => "Work", :frames => ['   ', '.  ', '.. ', '...'], :count => CYCLES do |spin|
   CYCLES.times do |i|
-    log += sprintf("%2d %s\n", i, snapshot(board))
+  	graph << acumulative(board)
+    log += sprintf("%2d %s %s\n", i, snapshot(board), graph[i])
     spin.post= " in progress #{i} of #{CYCLES} cycles #{snapshot(board)}"
     spin.inc
     board.cycle
