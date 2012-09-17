@@ -22,13 +22,13 @@ historylog = Column.new 'Historylog'
 
 board = Board.new
 board << backlog
-board << Column.new('Design', {wip: 3, resources_hight:3})
-board << Column.new('Development', {wip: 3, resources_hight:3})
-board << Column.new('QA', {wip: 3, resources_hight:3})
+board << Column.new('Design', {wip: 3, resources_hight:1, resource_points:6, uncertainty: false})
+board << Column.new('Development', {wip: 3, resources_hight:3, resource_points:6, uncertainty: false})
+board << Column.new('QA', {wip: 3, resources_hight:2, resource_points:6, uncertainty: false})
 board << historylog
 
 20.times do |i|
-  card = Card.new (i+1).to_s, columns_points: [0, 10, 20, 10, 0]
+  card = Card.new (i+1).to_s, columns_points: [0, 8, 12, 4, 0]
   backlog << card
 end
 CYCLES = 30
