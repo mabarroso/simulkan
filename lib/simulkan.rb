@@ -70,20 +70,30 @@ historylog = Column.new 'Historylog'
 board = Board.new
 board << backlog
 board << Column.new('Design', {wip: 4, resources_hight:2, resource_points:6, uncertainty: false})
-board << Column.new('Development', {wip: 4, resources_hight:3, resource_points:6, uncertainty: false})
-board << Column.new('QA', {wip: 4, resources_hight:1, resource_points:6, uncertainty: false})
+board << Column.new('Development', {wip: 6, resources_hight:3, resource_points:6, uncertainty: false})
+board << Column.new('QA', {wip: 2, resources_hight:1, resource_points:6, uncertainty: false})
 board << historylog
 
-20.times do |i|
-  card = Card.new (i+1).to_s, columns_points: [0, 2*8, 2*12, 2*4, 0]
-  backlog << card
-end
 CYCLES = 30
 
 log = ''
 graph = Array.new
+cards_n = 0
 Indicator::spin :pre => "Work", :frames => ['   ', '.  ', '.. ', '...'], :count => CYCLES do |spin|
   CYCLES.times do |i|
+  	board.first
+  	bcklog_n = board.column.size
+  	board.next
+  	first_need = board.column.wip - board.column.atwork
+puts "#{i} #{board.column.order} #{bcklog_n} < #{first_need} = #{board.column.wip} - #{board.column.atwork}"
+  	if bcklog_n < first_need
+			(first_need - bcklog_n + 1).times do
+				cards_n += 1
+			  card = Card.new cards_n.to_s, columns_points: [0, 2*8, 2*12, 2*4, 0]
+			  backlog << card
+			end
+		end
+
   	graph << acumulative(board)
     log += sprintf("%2d %s %s\n", i, snapshot(board), graph[i])
     spin.post= " in progress #{i} of #{CYCLES} cycles #{snapshot(board)}"
