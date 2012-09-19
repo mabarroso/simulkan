@@ -148,6 +148,14 @@ class Column
   	r
 	end
 
+  def blocked order = @order
+  	r = 0
+  	@cards.keys.each do |uid|
+      r += 1 if @cards[uid].blocked?
+  	end
+  	r
+	end
+
   private
   def uid
     @last_uid
