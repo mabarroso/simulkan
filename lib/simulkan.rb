@@ -86,7 +86,7 @@ Indicator::spin :pre => "Work", :frames => ['   ', '.  ', '.. ', '...'], :count 
   	board.next
   	first_need = board.column.wip - board.column.atwork
   	if bcklog_n < first_need
-			(first_need - bcklog_n + 1).times do
+			(first_need - bcklog_n).times do
 				cards_n += 1
 			  card = Card.new cards_n.to_s, columns_points: [0, 2*8, 2*12, 2*4, 0]
 			  backlog << card
