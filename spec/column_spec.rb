@@ -265,4 +265,14 @@ describe Column do
     column.done.should == 1
   end
 
+  it "must be blocked count" do
+    column = Column.new
+    card = Card.new
+    card.blocked = true
+    column << card
+    column.blocked.should == 1
+    card.blocked = false
+    column.blocked.should == 0
+  end
+
 end
