@@ -5,7 +5,7 @@ class Card
   $card_id = 0
 
   attr_reader :id, :counted
-  attr_accessor :name, :body, :columns_points, :blocked
+  attr_accessor :name, :body, :columns_points, :blocked, :blocked_at_column, :blocked_when_points
 
   def initialize name = false, opts = {}
     $card_id            += 1
@@ -46,17 +46,31 @@ class Card
 	end
 
   def consume_column_points column, points
-  	# return positive -> completed and more points
-  	# return 0 -> completed and no more points
-  	# return negative -> no completed and no more points
+  	# return positive -> completed/blocked and more points
+  	# return 0 -> completed/blocked and no more points
+  	# return negative -> no completed/blocked and no more points
   	return(points) unless @columns_points.count > column
     return(points) if done?(column)
+    return(points) if blocked?
   	result = points - @columns_points[column]
   	if result < 0
   		@columns_points[column] -= points
     else
       @columns_points[column] = 0
   	end
+
+  	if (blocked_at_column < 0) || (blocked_at_column == column)
+  	  if @columns_points[column] <= @blocked_when_points
+  	    @blocked = true
+
+  	    exceed = @blocked_when_points - @columns_points[column]
+  	    @columns_points[column] = @blocked_when_points
+
+        return exceed if result < 0
+  	    return result + exceed
+  	  end
+  	end
+
   	result
   end
 
