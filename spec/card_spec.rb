@@ -135,4 +135,63 @@ describe Card do
 		c.acumulative(2).should == [1, 1, 1]
 	end
 
+	it "must be blocked or not" do
+		c = Card.new
+		c.blocked = true
+		c.blocked?.should be_true
+		c.blocked = false
+		c.blocked?.should be_false
+	end
+
+	it "must not consume points when blocked" do
+		c = Card.new 'test', columns_points: [5]
+		c.blocked = true
+		c.consume_column_points(0, 5).should == 5
+	end
+
+	it "must be block at column 0 when points are greater than block limit" do
+		c = Card.new 'test', blocked_at_column: 0, blocked_when_points: 2, columns_points: [5]
+    c.blocked?.should be_false
+		c.consume_column_points(0, 5).should == 2
+		c.blocked?.should be_true
+  end
+
+	it "must be block at column 0 when points are equal than block limit" do
+		c = Card.new 'test', blocked_at_column: 0, blocked_when_points: 2, columns_points: [5]
+		c.blocked?.should be_false
+		c.consume_column_points(0, 3).should == 0
+		c.blocked?.should be_true
+  end
+
+	it "must be block at column 0 when points decrease to block limit" do
+		c = Card.new 'test', blocked_at_column: 0, blocked_when_points: 2, columns_points: [5]
+		c.blocked?.should be_false
+		c.consume_column_points(0, 2).should == -3
+		c.blocked?.should be_false
+		c.consume_column_points(0, 1).should == 0
+		c.blocked?.should be_true
+		c.consume_column_points(0, 1).should == 1
+		c.consume_column_points(0, 2).should == 2
+  end
+
+	it "must be block at column 1 when points" do
+		c = Card.new 'test', blocked_at_column: 1, blocked_when_points: 2, columns_points: [5, 5]
+		c.consume_column_points(0, 5).should == 0
+		c.blocked?.should be_false
+		c.consume_column_points(1, 5).should == 2
+    c.blocked?.should be_true
+  end
+
+	it "must be block for al columns when points" do
+		c = Card.new 'test', blocked_when_points: 2, columns_points: [5, 5, 5]
+		c.consume_column_points(0, 5).should == 2
+		c.blocked?.should be_true
+		c.blocked = false
+		c.consume_column_points(1, 5).should == 2
+		c.blocked?.should be_true
+		c.blocked = false
+		c.consume_column_points(2, 5).should == 2
+		c.blocked?.should be_true
+  end
+
 end

@@ -5,14 +5,16 @@ class Card
   $card_id = 0
 
   attr_reader :id, :counted
-  attr_accessor :name, :body, :columns_points
+  attr_accessor :name, :body, :columns_points, :blocked
 
   def initialize name = false, opts = {}
-    $card_id       += 1
-    @id             = $card_id
-    @name           = name || $card_id.to_s
-    @body           = opts[:body] || ''
+    $card_id            += 1
+    @id                  = $card_id
+    @name                = name || $card_id.to_s
+    @body                = opts[:body] || ''
     set_column_points(opts[:columns_points] || 0)
+    @blocked_at_column   = opts[:blocked_at_column] || -1
+    @blocked_when_points = opts[:blocked_when_points] || -1
   end
 
   def set_column_points columns_points
@@ -80,6 +82,10 @@ class Card
 			end
 		end
 		r
+	end
+
+	def blocked?
+	  @blocked == true
 	end
 
 end
