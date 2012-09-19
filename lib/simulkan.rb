@@ -85,7 +85,6 @@ Indicator::spin :pre => "Work", :frames => ['   ', '.  ', '.. ', '...'], :count 
   	bcklog_n = board.column.size
   	board.next
   	first_need = board.column.wip - board.column.atwork
-puts "#{i} #{board.column.order} #{bcklog_n} < #{first_need} = #{board.column.wip} - #{board.column.atwork}"
   	if bcklog_n < first_need
 			(first_need - bcklog_n + 1).times do
 				cards_n += 1
