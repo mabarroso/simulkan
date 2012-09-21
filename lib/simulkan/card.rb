@@ -23,14 +23,22 @@ class Card
     if columns_points.is_a? Array
     	columns_points.each do |points|
     		@columns_points << points
-    		@counted << false
     	end
     else
       columns_points.times do |i|
       	@columns_points << STORY_POINTS
-      	@counted << false
       end
   	end
+    @counted = [false] * @columns_points.size
+    @added   = [false] * @columns_points.size
+  end
+
+  def added column, iteration
+    @added[column] = iteration
+  end
+
+  def history
+    @added
   end
 
   def get_column_points column

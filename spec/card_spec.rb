@@ -194,4 +194,27 @@ describe Card do
 		c.blocked?.should be_true
   end
 
+	it "must be added to 0 at iteration 1" do
+		c = Card.new
+		c.set_column_points 3
+		c.added 0, 1
+		c.history.should == [1, false, false]
+	end
+
+	it "must be added to 1 at iteration 2" do
+		c = Card.new
+		c.set_column_points 3
+		c.added 1, 2
+		c.history.should == [false, 2, false]
+	end
+
+	it "must be added to all at iterations 1, 2, 3" do
+		c = Card.new
+		c.set_column_points 3
+		c.added 0, 1
+		c.added 1, 2
+		c.added 2, 3
+		c.history.should == [1, 2, 3]
+	end
+
 end
