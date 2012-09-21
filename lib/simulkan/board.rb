@@ -1,6 +1,7 @@
 class Board
 
   $board_id = 0
+  $cycle    = -1
 
   attr_accessor :name
 
@@ -11,6 +12,7 @@ class Board
     @last_uid   = -1
     @columns    = {}
     @current    = 0
+    reset_cycle
   end
 
   def size
@@ -95,7 +97,12 @@ class Board
     @columns[@columns.keys[@current]]
 	end
 
+  def reset_cycle
+    $cycle = -1
+  end
+
 	def cycle
+	  $cycle += 1
 		last
 		begin
 			work_points = column.work_points
@@ -119,6 +126,7 @@ class Board
 						self.next
 						if card
 							column.add card
+							card.added column.order, $cycle
 							column.last
 							is_valid_card = column.card
 						end
