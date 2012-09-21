@@ -13,7 +13,7 @@ class Column
     @last_uid          = -1
     @cards             = {}
     @current           = 0
-    @wip               = opts[:wip] || 9999
+    @wip               = opts[:wip] || 0
     @resources_hight   = opts[:resources_hight] || 1
     @resources_low     = opts[:resources_low] || 0
     @resource_points   = opts[:resource_points] || 2
@@ -30,6 +30,7 @@ class Column
   end
 
   def wip?
+  	return false if @wip == 0
     size > @wip - 1
   end
 
