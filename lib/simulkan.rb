@@ -10,10 +10,13 @@ require File.join(root, 'exceptions/wip_exception')
 
 def snapshot board
 	r = ''
+	blockeds = 0
 	board.first
 	board.each do |column|
+		blockeds += column.blocked
 		r += sprintf("%2d/%2d[%1d-%2d-%2d] |",  column.atwork, column.done, column.wip, column.resources, column.last_work_points)
 	end
+	r += sprintf("%1d|",  blockeds)
 	r
 end
 
