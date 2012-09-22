@@ -107,3 +107,10 @@ end
 
 puts log
 puts graph_acumulative graph, board
+
+board.first
+board.each do |column|
+	column.each do |card|
+	  puts "->#{card.id} #{card.history}\n"
+	end
+end
