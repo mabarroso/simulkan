@@ -217,4 +217,29 @@ describe Card do
 		c.history.should == [1, 2, 3]
 	end
 
+	it "must be normal service class" do
+		c = Card.new
+		c.service_class.should == Card::CLASS_NORMAL
+	end
+
+	it "must be normal service class" do
+		c = Card.new 'test', service_class: Card::CLASS_NORMAL
+		c.service_class.should == Card::CLASS_NORMAL
+	end
+
+	it "must be fixdate service class" do
+		c = Card.new 'test', service_class: Card::CLASS_FIXDATE
+		c.service_class.should == Card::CLASS_FIXDATE
+	end
+
+	it "must be intangible service class" do
+		c = Card.new 'test', service_class: Card::CLASS_INTANGIBLE
+		c.service_class.should == Card::CLASS_INTANGIBLE
+	end
+
+	it "must be expedite service class" do
+		c = Card.new 'test', service_class: Card::CLASS_EXPEDITE
+		c.service_class.should == Card::CLASS_EXPEDITE
+	end
+
 end

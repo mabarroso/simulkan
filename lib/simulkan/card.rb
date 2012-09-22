@@ -1,20 +1,26 @@
 class Card
 
+  CLASS_NORMAL      = 1
+  CLASS_FIXDATE     = 2
+  CLASS_INTANGIBLE  = 3
+  CLASS_EXPEDITE    = 4
+
 	STORY_POINTS = 5
 
   $card_id = 0
 
   attr_reader :id, :counted
-  attr_accessor :name, :body, :columns_points, :blocked, :blocked_at_column, :blocked_when_points
+  attr_accessor :name, :body, :columns_points, :blocked, :blocked_at_column, :blocked_when_points, :service_class
 
   def initialize name = false, opts = {}
-    $card_id            += 1
-    @id                  = $card_id
-    @name                = name || $card_id.to_s
-    @body                = opts[:body] || ''
+    $card_id             += 1
+    @id                   = $card_id
+    @name                 = name || $card_id.to_s
+    @body                 = opts[:body] || ''
     set_column_points(opts[:columns_points] || 0)
-    @blocked_at_column   = opts[:blocked_at_column] || -1
-    @blocked_when_points = opts[:blocked_when_points] || -1
+    @blocked_at_column    = opts[:blocked_at_column] || -1
+    @blocked_when_points  = opts[:blocked_when_points] || -1
+    @service_class        = opts[:service_class] || CLASS_NORMAL
   end
 
   def set_column_points columns_points
