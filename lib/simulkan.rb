@@ -67,6 +67,31 @@ def graph_acumulative graph, board
 							)
 end
 
+def graph_sla board
+	axis_x_days = {}
+	last_column = board.size - 1
+	board.first
+	board.each do |column|
+		column.each do |card|
+			if card.history[last_column]
+				days = card.history[last_column] - card.history[1]
+				axis_x_days[days] = 0 if axis_x_days[days] == nil
+				axis_x_days[days] += 1
+			end
+#		  puts "->##{card.id} Class: #{card.service_class} #{card.history}\n"
+		end
+	end
+	axis_x_days.keys.max.times do |i|
+		axis_x_days[i] = 1 if axis_x_days[i] == nil
+	end
+
+	puts axis_x_days.to_s
+	Gchart.bar( data: axis_x_days.values,
+							axis_with_labels: ['x', 'y'],
+           		axis_labels: 1.step(axis_x_days.keys.max,1).to_a
+           	)
+end
+
 backlog = Column.new 'Backlog'
 historylog = Column.new 'Historylog'
 
@@ -107,6 +132,8 @@ end
 
 puts log
 puts graph_acumulative graph, board
+puts
+puts graph_sla board
 
 board.first
 board.each do |column|
