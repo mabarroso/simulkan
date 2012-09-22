@@ -111,6 +111,6 @@ puts graph_acumulative graph, board
 board.first
 board.each do |column|
 	column.each do |card|
-	  puts "->#{card.id} #{card.history}\n"
+	  puts "->##{card.id} Class: #{card.service_class} #{card.history}\n"
 	end
 end
