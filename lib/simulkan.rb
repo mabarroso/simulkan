@@ -8,7 +8,7 @@ require File.join(root, 'column')
 require File.join(root, 'board')
 require File.join(root, 'exceptions/wip_exception')
 
-UNCERTAINTY = true
+UNCERTAINTY = false
 
 def snapshot board
 	r = ''
@@ -90,10 +90,11 @@ def graph_sla board
 	axis_x_days = Hash[sorted_array.map {|k,v| [k,v]}]
 	total_work = axis_x_days.values.inject{|sum,x| sum + x }
   axis_x_days_percent = Hash[axis_x_days.map {|k,v| [k, (v==0)?'':"#{100*v/total_work}%"]}]
+  axis_x_days_sla = Hash[axis_x_days.map {|k,v| sum = axis_x_days.keys.inject{|sum,i| (i>k)?sum:sum + axis_x_days[i] }; [k, "#{100*sum/total_work}%"]}]
 
 	Gchart.bar( data: axis_x_days.values,
-							axis_with_labels: ['x', 'x', 'x', 'y'],
-           		axis_labels: [axis_x_days.keys, axis_x_days.values, axis_x_days_percent.values, 1.step(axis_x_days.values.max,1).to_a],
+							axis_with_labels: ['x', 'x', 'x', 'x', 'y'],
+           		axis_labels: [axis_x_days.keys, axis_x_days_sla.values, axis_x_days.values, axis_x_days_percent.values, 1.step(axis_x_days.values.max,1).to_a],
            		size: '600x300'
            	)
 end
