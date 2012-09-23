@@ -82,13 +82,17 @@ def graph_sla board
 		end
 	end
 	axis_x_days.keys.max.times do |i|
-		axis_x_days[i] = 1 if axis_x_days[i] == nil
+		axis_x_days[i] = 0 if axis_x_days[i] == nil
 	end
+	sorted_array = axis_x_days.sort
+	axis_x_days = Hash[sorted_array.map {|k,v| [k,v]}]
+	total_work = axis_x_days.values.inject{|sum,x| sum + x }
+  axis_x_days_percent = Hash[sorted_array.map {|k,v| [k, (v==0)?'':"#{100*v/total_work}%"]}]
 
-	puts axis_x_days.to_s
 	Gchart.bar( data: axis_x_days.values,
-							axis_with_labels: ['x', 'y'],
-           		axis_labels: 1.step(axis_x_days.keys.max,1).to_a
+							axis_with_labels: ['x', 'x', 'y'],
+           		#labels: [axis_x_days.keys],
+           		axis_labels: [axis_x_days.values,  axis_x_days_percent.values, 1.step(axis_x_days.values.max,1).to_a]
            	)
 end
 
