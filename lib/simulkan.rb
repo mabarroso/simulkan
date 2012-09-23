@@ -8,6 +8,8 @@ require File.join(root, 'column')
 require File.join(root, 'board')
 require File.join(root, 'exceptions/wip_exception')
 
+UNCERTAINTY = true
+
 def snapshot board
 	r = ''
 	blockeds = 0
@@ -87,12 +89,12 @@ def graph_sla board
 	sorted_array = axis_x_days.sort
 	axis_x_days = Hash[sorted_array.map {|k,v| [k,v]}]
 	total_work = axis_x_days.values.inject{|sum,x| sum + x }
-  axis_x_days_percent = Hash[sorted_array.map {|k,v| [k, (v==0)?'':"#{100*v/total_work}%"]}]
+  axis_x_days_percent = Hash[axis_x_days.map {|k,v| [k, (v==0)?'':"#{100*v/total_work}%"]}]
 
 	Gchart.bar( data: axis_x_days.values,
-							axis_with_labels: ['x', 'x', 'y'],
-           		#labels: [axis_x_days.keys],
-           		axis_labels: [axis_x_days.values,  axis_x_days_percent.values, 1.step(axis_x_days.values.max,1).to_a]
+							axis_with_labels: ['x', 'x', 'x', 'y'],
+           		axis_labels: [axis_x_days.keys, axis_x_days.values, axis_x_days_percent.values, 1.step(axis_x_days.values.max,1).to_a],
+           		size: '600x300'
            	)
 end
 
@@ -101,9 +103,9 @@ historylog = Column.new 'Historylog'
 
 board = Board.new
 board << backlog
-board << Column.new('Design', {wip: 4, resources_hight:2, resource_points:6, uncertainty: false})
-board << Column.new('Development', {wip: 6, resources_hight:3, resource_points:6, uncertainty: false})
-board << Column.new('QA', {wip: 2, resources_hight:1, resource_points:6, uncertainty: false})
+board << Column.new('Design', {wip: 3, resources_hight:2, resource_points:6, uncertainty: UNCERTAINTY})
+board << Column.new('Development', {wip: 5, resources_hight:3, resource_points:6, uncertainty: UNCERTAINTY})
+board << Column.new('QA', {wip: 2, resources_hight:1, resource_points:6, uncertainty: UNCERTAINTY})
 board << historylog
 
 CYCLES = 30
@@ -120,7 +122,7 @@ Indicator::spin :pre => "Work", :frames => ['   ', '.  ', '.. ', '...'], :count 
   	if bcklog_n < first_need
 			(first_need - bcklog_n).times do
 				cards_n += 1
-			  card = Card.new cards_n.to_s, columns_points: [0, 2*8, 2*12, 2*4, 0]
+			  card = Card.new cards_n.to_s, columns_points: [0, 8, 12, 4, 0]
 			  backlog << card
 			end
 		end
