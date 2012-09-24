@@ -3,22 +3,23 @@ class Column
   $column_id = 0
 
 	attr_reader :id
-  attr_accessor :name, :order, :wip, :resources_hight, :resources_low, :resource_points, :uncertainty, :last_work_points
+  attr_accessor :name, :order, :wip, :resources_hight, :resources_low, :resource_points, :resource_points_min, :uncertainty, :last_work_points
 
   def initialize name = false, opts = {}
-    $column_id        += 1
-    @id                = $column_id
-    @name              = name ? name : 'unnamed' + $column_id.to_s
-    @order             = opts[:order] || @id
-    @last_uid          = -1
-    @cards             = {}
-    @current           = 0
-    @wip               = opts[:wip] || 0
-    @resources_hight   = opts[:resources_hight] || 1
-    @resources_low     = opts[:resources_low] || 0
-    @resource_points   = opts[:resource_points] || 2
-    @uncertainty   	   = opts[:uncertainty] || false
-    @last_work_points  = 0
+    $column_id           += 1
+    @id                   = $column_id
+    @name                 = name ? name : 'unnamed' + $column_id.to_s
+    @order                = opts[:order] || @id
+    @last_uid             = -1
+    @cards                = {}
+    @current              = 0
+    @wip                  = opts[:wip] || 0
+    @resources_hight      = opts[:resources_hight] || 1
+    @resources_low        = opts[:resources_low] || 0
+    @resource_points      = opts[:resource_points] || 2
+    @resource_points_min  = opts[:resource_points_min] || 1
+    @uncertainty   	      = opts[:uncertainty] || false
+    @last_work_points     = 0
   end
 
   def size
@@ -125,10 +126,10 @@ class Column
   def work_points
   	points = 0
   	@resources_hight.times do
-  		points += Resource.work max: @resource_points, random: @uncertainty
+  		points += Resource.work max: @resource_points, min: @resource_points_min, random: @uncertainty
   	end
   	@resources_low.times do
-  		points += Resource.work max: @resource_points, random: @uncertainty, lower: true
+  		points += Resource.work max: @resource_points, min: @resource_points_min, random: @uncertainty, lower: true
   	end
   	@last_work_points = points
   end
