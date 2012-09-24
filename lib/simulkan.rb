@@ -8,7 +8,8 @@ require File.join(root, 'column')
 require File.join(root, 'board')
 require File.join(root, 'exceptions/wip_exception')
 
-UNCERTAINTY = false
+UNCERTAINTY = true
+RESOURCE_POINTS = 9
 
 def snapshot board
 	r = ''
@@ -92,6 +93,11 @@ def graph_sla board
   axis_x_days_percent = Hash[axis_x_days.map {|k,v| [k, (v==0)?'':"#{100*v/total_work}%"]}]
   axis_x_days_sla = Hash[axis_x_days.map {|k,v| sum = axis_x_days.keys.inject{|sum,i| (i>k)?sum:sum + axis_x_days[i] }; [k, "#{100*sum/total_work}%"]}]
 
+  puts axis_x_days.keys.to_s
+  puts axis_x_days_sla.values.to_s
+  puts axis_x_days.values.to_s
+  puts '---'
+
 	Gchart.bar( data: axis_x_days.values,
 							axis_with_labels: ['x', 'x', 'x', 'x', 'y'],
            		axis_labels: [axis_x_days.keys, axis_x_days_sla.values, axis_x_days.values, axis_x_days_percent.values, 1.step(axis_x_days.values.max,1).to_a],
@@ -104,9 +110,9 @@ historylog = Column.new 'Historylog'
 
 board = Board.new
 board << backlog
-board << Column.new('Design', {wip: 3, resources_hight:2, resource_points:6, uncertainty: UNCERTAINTY})
-board << Column.new('Development', {wip: 5, resources_hight:3, resource_points:6, uncertainty: UNCERTAINTY})
-board << Column.new('QA', {wip: 2, resources_hight:1, resource_points:6, uncertainty: UNCERTAINTY})
+board << Column.new('Design', {wip: 3, resources_hight: 2, resource_points: RESOURCE_POINTS, uncertainty: UNCERTAINTY})
+board << Column.new('Development', {wip: 5, resources_hight: 3, resource_points: RESOURCE_POINTS, uncertainty: UNCERTAINTY})
+board << Column.new('QA', {wip: 2, resources_hight: 1, resource_points: RESOURCE_POINTS, uncertainty: UNCERTAINTY})
 board << historylog
 
 CYCLES = 30
@@ -145,6 +151,6 @@ puts graph_sla board
 board.first
 board.each do |column|
 	column.each do |card|
-	  puts "->##{card.id} Class: #{card.service_class} #{card.history}\n"
+#	  puts "->##{card.id} Class: #{card.service_class} #{card.history}\n"
 	end
 end
