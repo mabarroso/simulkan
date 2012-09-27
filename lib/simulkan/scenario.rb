@@ -18,6 +18,15 @@ module Simulkan
 
     def init
     end
+
+    def build_board opts = {}
+    end
+
+    def pre_cycle opts = {}
+    end
+
+    def post_cycle opts = {}
+    end
   end
 
   def self.use name
