@@ -1,4 +1,4 @@
-module SIMULKAN
+module Simulkan
   class Getkanban < Scenario
   end
 end
