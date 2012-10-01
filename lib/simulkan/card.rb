@@ -17,10 +17,19 @@ class Card
     @id                   = $card_id
     @name                 = name || $card_id.to_s
     @body                 = opts[:body] || ''
+    @attributes           = opts[:attributes] || {}
     set_column_points(opts[:columns_points] || 0)
     @blocked_at_column    = opts[:blocked_at_column] || -1
     @blocked_when_points  = opts[:blocked_when_points] || -1
     @service_class        = opts[:service_class] || CLASS_NORMAL
+  end
+
+  def attribute_get name
+    @attributes[name]
+  end
+
+  def attribute_set opts = {}
+    opts.each{|k,v| @attributes[k] = v}
   end
 
   def set_column_points columns_points

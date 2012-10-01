@@ -242,4 +242,14 @@ describe Card do
 		c.service_class.should == Card::CLASS_EXPEDITE
 	end
 
+	it "must be attribute" do
+		c = Card.new 'test', attributes: {one: 1, two: 2}
+		c.attribute_get(:one).should == 1
+		c.attribute_get(:two).should == 2
+	  c.attribute_set three: 3
+		c.attribute_get(:three).should == 3
+		c.attribute_get(:two).should == 2
+		c.attribute_get(:one).should == 1
+	end
 end
+
