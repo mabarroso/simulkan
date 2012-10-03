@@ -6,4 +6,10 @@ describe Simulkan::Getkanban do
     s = Simulkan.use :getkanban
     s.name.should ==  Simulkan::Getkanban
   end
+
+  it "should be correct number of cardsclass" do
+    s = Simulkan.use :getkanban
+    s.cards.count.should ==  36
+  end
+
 end
