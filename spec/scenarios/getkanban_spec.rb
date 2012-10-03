@@ -12,7 +12,7 @@ describe Simulkan::Getkanban do
     s.cards.count.should ==  36
   end
 
-  it "should be correct number of cards for class" do
+  it "should be correct number of cards by service class" do
     s = Simulkan.use :getkanban
     c = {}
     s.cards.each do |card|
@@ -23,6 +23,18 @@ describe Simulkan::Getkanban do
     c[Card::CLASS_EXPEDITE].should ==  1
     c[Card::CLASS_FIXDATE].should ==  2
     c[Card::CLASS_INTANGIBLE].should ==  3
+  end
+
+  it "should be correct amount of subs and money" do
+    s = Simulkan.use :getkanban
+    subs = 0
+    money = 0
+    s.cards.each do |card|
+      subs += card.attribute_get :subs
+      money += card.attribute_get :amount
+    end
+    subs.should ==  318
+    money.should ==  7200
   end
 
 end
