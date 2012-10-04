@@ -31,7 +31,7 @@ describe Simulkan::Getkanban do
     money = 0
     s.cards.each do |card|
       subs += card.attribute_get :subs
-      money += card.attribute_get :amount
+      money += card.attribute_get :money
     end
     subs.should ==  318
     money.should ==  7200
