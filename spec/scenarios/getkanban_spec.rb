@@ -37,4 +37,9 @@ describe Simulkan::Getkanban do
     money.should ==  7200
   end
 
+  it "should be correct number of columns" do
+    s = Simulkan.use :getkanban
+    s.build_board
+    s.board.size.should == 5
+  end
 end

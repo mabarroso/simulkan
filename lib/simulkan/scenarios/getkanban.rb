@@ -1,13 +1,29 @@
 root = File.expand_path('../../../../lib/simulkan', __FILE__)
 require File.join(root, 'card')
+require File.join(root, 'resource')
+require File.join(root, 'column')
+require File.join(root, 'board')
+require File.join(root, 'exceptions/wip_exception')
 
 module Simulkan
   class Getkanban < Scenario
 
-    attr_reader :cards
+    attr_reader :cards, :ready, :historylog, :board
 
     def init
       build_cards
+    end
+
+    def build_board opts = {}
+      @ready = Column.new 'Ready'
+      @historylog = Column.new 'Historylog'
+
+      @board = Board.new
+      @board << @ready
+      @board << Column.new('Design', {wip: 3, resources_hight: 2*2, resource_points: 6, uncertainty: true})
+      @board << Column.new('Development', {wip: 5, resources_hight: 2*3, resource_points: 6, uncertainty: true})
+      @board << Column.new('Test', {wip: 3, resources_hight: 2*2, resource_points: 6, uncertainty: true})
+      @board << @historylog
     end
 
     private
