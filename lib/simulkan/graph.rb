@@ -1,6 +1,6 @@
 class Graph
 
-  def self.graph_acumulative card_data, board = false
+  def self.acumulative card_data, board = false
     legend = []
     labels = []
   	data = []
@@ -35,7 +35,7 @@ class Graph
   							)
   end
 
-  def self.graph_sla board
+  def self.sla board
   	axis_x_days = {}
   	last_column = board.size - 1
   	board.first

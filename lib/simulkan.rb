@@ -77,9 +77,9 @@ Indicator::spin :pre => "Work", :frames => ['   ', '.  ', '.. ', '...'], :count 
 end
 
 puts log
-puts Graph::graph_acumulative graph_data, board
+puts Graph::acumulative graph_data, board
 puts
-puts Graph::graph_acumulative graph_data
+puts Graph::acumulative graph_data
 puts
 
-puts Graph::graph_sla board
+puts Graph::sla board
