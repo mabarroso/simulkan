@@ -12,18 +12,6 @@ require File.join(root, 'exceptions/wip_exception')
 UNCERTAINTY = false
 RESOURCE_POINTS = 6
 
-def snapshot board
-	r = ''
-	blockeds = 0
-	board.first
-	board.each do |column|
-		blockeds += column.blocked
-		r += sprintf("%2d/%2d[%1d-%2d-%2d] |",  column.atwork, column.done, column.wip, column.resources, column.last_work_points)
-	end
-	r += sprintf("%1d|",  blockeds)
-	r
-end
-
 def acumulative board
 	r = [0] * board.size
 	board.first
@@ -68,8 +56,8 @@ Indicator::spin :pre => "Work", :frames => ['   ', '.  ', '.. ', '...'], :count 
 		end
 
   	graph_data << acumulative(board)
-    log += sprintf("%2d %s %s\n", i, snapshot(board), graph_data[i])
-    spin.post= " in progress #{i} of #{CYCLES} cycles #{snapshot(board)}"
+    log += sprintf("%2d %s %s\n", i, board.snapshot, graph_data[i])
+    spin.post= " in progress #{i} of #{CYCLES} cycles #{board.snapshot}"
     spin.inc
     board.cycle
     #sleep 0.5

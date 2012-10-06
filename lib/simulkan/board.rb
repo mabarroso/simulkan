@@ -137,6 +137,18 @@ class Board
 		end while previous
 	end
 
+  def snapshot
+  	r = ''
+  	blockeds = 0
+  	first
+  	each do |column|
+  		blockeds += column.blocked
+  		r += sprintf("%2d/%2d[%1d-%2d-%2d] |",  column.atwork, column.done, column.wip, column.resources, column.last_work_points)
+  	end
+  	r += sprintf("%1d|",  blockeds)
+  	r
+  end
+
   private
   def uid
     @last_uid
