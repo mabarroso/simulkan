@@ -1,3 +1,4 @@
+require 'googlecharts'
 class Graph
 
   def self.acumulative card_data, board = false
