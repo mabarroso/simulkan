@@ -1,13 +1,5 @@
 require 'indicator'
-require 'googlecharts'
-
-root = File.expand_path('../../lib/simulkan', __FILE__)
-require File.join(root, 'graph')
-require File.join(root, 'card')
-require File.join(root, 'resource')
-require File.join(root, 'column')
-require File.join(root, 'board')
-require File.join(root, 'exceptions/wip_exception')
+Dir["#{File.dirname(__FILE__)}/simulkan/**/*.rb"].each { |f| load(f) }
 
 UNCERTAINTY = false
 RESOURCE_POINTS = 6
