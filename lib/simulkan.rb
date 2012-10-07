@@ -12,20 +12,6 @@ require File.join(root, 'exceptions/wip_exception')
 UNCERTAINTY = false
 RESOURCE_POINTS = 6
 
-def acumulative board
-	r = [0] * board.size
-	board.first
-	board.each do |column|
-		column.each do |card|
-			columns = card.acumulative(column.order)
-			columns.size.times do |i|
-				r[i] += columns[i]
-			end
-		end
-	end
-	r
-end
-
 backlog = Column.new 'Backlog'
 historylog = Column.new 'Historylog'
 
@@ -55,7 +41,7 @@ Indicator::spin :pre => "Work", :frames => ['   ', '.  ', '.. ', '...'], :count 
 			end
 		end
 
-  	graph_data << acumulative(board)
+  	graph_data << board.acumulative
     log += sprintf("%2d %s %s\n", i, board.snapshot, graph_data[i])
     spin.post= " in progress #{i} of #{CYCLES} cycles #{board.snapshot}"
     spin.inc

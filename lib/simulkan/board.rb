@@ -149,6 +149,20 @@ class Board
   	r
   end
 
+  def acumulative
+  	r = [0] * size
+  	first
+  	each do |column|
+  		column.each do |card|
+  			columns = card.acumulative(column.order)
+  			columns.size.times do |i|
+  				r[i] += columns[i]
+  			end
+  		end
+  	end
+  	r
+  end
+
   private
   def uid
     @last_uid
