@@ -7,5 +7,16 @@ describe Game do
   	g.class.should ==  Game
   end
 
+  it "should be default scenario" do
+    g = Game.instance
+  	g.scenario.name.should ==  Simulkan::Default
+  end
+
+  it "should be selected scenario" do
+    g = Game.instance
+    g.use :dummy
+  	g.scenario.name.should ==  Simulkan::Dummy
+  end
+
 end
 
